@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core" xml:lang="en" lang="en">
+<h:head>
+    <title>Title</title>
+    <h:outputStylesheet library="css" name="stylesheet.css"/>
+</h:head>
+<h:body>
+<h1>Car Database</h1>
+    <div align="center">
+<h:form>
+    <h:messages errorClass="error"/>
+<h:panelGrid border="1">
+    <h:outputText value="Brand"/>
+    <h:inputText id="brand" value="#{carManagedBean.selectedCar.brand}" required="true"
+                 requiredMessage="Please input a brand!"/>
+
+    <h:outputText value="Model"/>
+    <h:inputText value="#{carManagedBean.selectedCar.model}" required="true"
+                 requiredMessage="Please input a model!" validatorMessage="Input a 3 or 4 letter Model name!">
+    <f:validateLength minimum="3" maximum="4"/>
+    </h:inputText>
+
+    <h:outputText value="Engine Code"/>
+    <h:inputText value="#{carManagedBean.selectedCar.engineCode}"
+                 validatorMessage="Engine code must follow VOL-xxxxxx pattern!">
+        <f:validateRegex pattern="VOL-\d{6}"/>
+    </h:inputText>
+
+    <h:outputText value="Horsepower"/>
+    <h:inputText value="#{carManagedBean.selectedCar.horsepower}"
+                 validatorMessage="Input a Horsepower between 110 and 400">
+        <f:validateLongRange minimum="110" maximum="400"/>
+    </h:inputText>
+
+    <h:outputText value="Top Speed"/>
+    <h:inputText value="#{carManagedBean.selectedCar.topSpeed}"
+                 validatorMessage="Input a Top Speed between 180 and 280">
+        <f:validateLongRange minimum="180" maximum="280"/>
+    </h:inputText>
+
+    <h:outputText value="Colour"/>
+    <h:selectOneMenu value="#{carManagedBean.selectedCar.colour}" styleClass="select-one-menu">
+        <f:selectItems value="#{carManagedBean.colorList}"/>
+    </h:selectOneMenu>
+
+    <h:outputText value="Number of Doors"/>
+    <h:selectOneRadio value="#{carManagedBean.selectedCar.doors}" styleClass="select-one-menu">
+        <f:selectItems value="#{carManagedBean.doorOptions}"/>
+    </h:selectOneRadio>
+
+    <h:outputText value="Engine Type"/>
+    <h:selectOneMenu value="#{carManagedBean.selectedCar.engineType}" styleClass="select-one-menu">
+        <f:selectItem itemValue="Diesel"/>
+        <f:selectItem itemValue="Petrol"/>
+        <f:selectItem itemValue="Electric"/>
+    </h:selectOneMenu>
+
+    <h:commandButton value="Save" action="#{carManagedBean.save(carManagedBean.selectedCar)}" styleClass="save"/>
+</h:panelGrid>
+</h:form>
+    </div>
+    <div align="center">
+<h:form>
+    <h:dataTable value="#{carManagedBean.carList}" var="car" styleClass="table" headerClass="table-header"
+                 rowClasses="table-odd-row,table-even-row">
+        <h:column>
+            <f:facet name="header">
+                Brand
+            </f:facet>
+            #{car.brand}
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                Model
+            </f:facet>
+            #{car.model}
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                Colour
+            </f:facet>
+            #{car.colour}
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                Number of Doors
+            </f:facet>
+            #{car.doors}
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                Engine Type
+            </f:facet>
+            #{car.engineType}
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                ID
+            </f:facet>
+            #{car.id}
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                Engine Code
+            </f:facet>
+            <h:outputText value="#{car.engineCode}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                Horsepower
+            </f:facet>
+            <h:outputText value="#{car.horsepower}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                Top Speed
+            </f:facet>
+            <h:outputText value="#{car.topSpeed}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                Delete
+            </f:facet>
+            <h:commandButton value="Delete" action="#{carManagedBean.delete(car.id)}" styleClass="table-buttons"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                Modify
+            </f:facet>
+            <h:commandButton value="Modify" action="#{carManagedBean.findCar(car.id)}" styleClass="table-buttons"/>
+        </h:column>
+    </h:dataTable>
+</h:form>
+    </div>
+</h:body>
+</html>
